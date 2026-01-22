@@ -16,6 +16,24 @@ Then, install the [Dev Containers VSCode Extension](https://marketplace.visualst
 
 Afterward, in VSCode, open the folder containing all of your ROS 2 workspaces (e.g. `sim_ws/`, `lab1_ws/`).
 
+Then, copy and paste the *docker-compose.yml* and *Dockerfile* from the *f1tenth_gym_ros folder* into the folder root.
+
+![Screenshot of the Docker files in root](docker-files-in-root.png)
+
+Then, in your **new** *docker-compose.yml* file, under `services.sim.volumes`, change this line
+
+```
+      - .:/sim_ws/src/f1tenth_gym_ros
+```
+
+to
+
+```
+      - ./sim_ws/src/f1tenth_gym_ros:/sim_ws/src/f1tenth_gym_ros
+```
+
+We need to do this because the relative paths have changed.
+
 Then, from the folder root (not a workspace root), create a new file called `.devcontainer/devcontainer.json`.
 
 ![Screenshot of the files](devcontainer-files-in-vscode.png)
@@ -27,7 +45,7 @@ Then copy and paste the following contents inside:
   // Name of container
   "name": "Ubuntu ROS2 Foxy F1Tenth",
   // Docker Compose file to use
-  "dockerComposeFile": "../sim_ws/src/f1tenth_gym_ros/docker-compose.yml",
+  "dockerComposeFile": "../docker-compose.yml",
   // Service to work on (one of the services in the compose file)
   "service": "sim",
   // Path of the workspace folder inside the container
@@ -76,6 +94,20 @@ Some useful commands to know *outside* the container:
 A useful command to use *inside* the container:
 
 * **Dev Containers: Reopen Folder Locally**: Opens outside the container (locally).
+
+## Adding a New Volume Mount
+
+To add a new volume mount, go to *docker-compose.yml* and add a new line under `services.sim.volumes` with the following syntax:
+
+```
+      - <path-locally>:<path-in-container>
+```
+
+For example, if you wanted to mount a folder `./lab1_ws/src`, you would add the line:
+
+```
+      - ./lab1_ws/src:/lab1_ws/src
+```
 
 ## Resources
 
