@@ -109,6 +109,16 @@ For example, if you wanted to mount a folder `./lab1_ws/src`, you would add the 
       - ./lab1_ws/src:/lab1_ws/src
 ```
 
+## Adding a .bashrc file
+
+Copy and paste the `.bashrc` file in this repository then add the following volume mount:
+
+```
+      - ./.bashrc:/root/.bashrc
+```
+
+This file will be run whenever a new terminal starts. This is also used by the Python extension to find where the site packages are.
+
 ## Resources
 
 * VSCode Dev Containers:  https://code.visualstudio.com/docs/devcontainers/containers
