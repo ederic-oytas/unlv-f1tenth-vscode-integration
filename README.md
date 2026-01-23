@@ -127,7 +127,11 @@ You'll need to add a new mount for every lab for this semester.
 
 Finally, we will mount a modified *.bashrc* file. This file is ran every time a new terminal is created inside your container. It is also used by the Python extension, so if you don't source the underlay in this file, it will not know where the installed Python packages are for ROS 2.
 
-First, copy and paste the *.bashrc* file (located within this Github repo) into your root folder.
+First, copy and paste the *.bashrc* file (located within this Github repo) into your root folder. This file is the default *.bashrc* file but with an additional line at the bottom:
+
+```bash
+source /opt/ros/foxy/setup.bash
+```
 
 Then add the following volume mount by putting the following line under your `services.sim_volumes` in your *docker-compose.yml* file (in your root):
 
@@ -138,6 +142,25 @@ Then add the following volume mount by putting the following line under your `se
 Afterward, enter your container again. You should see it under */root*.
 
 ![Screenshot of .bashrc file volume-mounted](image.png)
+
+## 4: Sourcing Overlays in .bashrc (Optional)
+
+In the previous step, we mounted a *.bashrc* file which at the end of it, automatically sources the underlay using:
+
+```bash
+source /opt/ros/foxy/setup.bash
+```
+
+Thus, you no longer need to use this line when you're starting a new shell. Optionally, you can add additional lines to source the overlays of each of your different workspaces. If you have two workspace folders */sim_ws/* and */lab1_ws/*, then you would add the following two lines to the end of *.bashrc*:
+
+```bash
+source /sim_ws/install/local_setup.bash
+source /lab1_ws/install/local_setup.bash
+```
+
+NOTE: If you've never built a certain workspace yet, then a new terminal will output an error (but not crash) upon startup, since the *install/local_setup.bash* file wouldn't exist for that workspace.
+
+NOTE: No two nodes across all of your workspaces **should not** share the same names.
 
 ## Return to Lab 1
 
