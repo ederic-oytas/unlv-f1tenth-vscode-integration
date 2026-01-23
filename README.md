@@ -139,6 +139,14 @@ Afterward, enter your container again. You should see it under */root*.
 
 ![Screenshot of .bashrc file volume-mounted](image.png)
 
+## Return to Lab 1
+
+After you follow these instructions, you should return to Step 5 in the lab, skipping Step 4 (this step is already covered by the volume mounts section).
+
+Note that you'll no longer need to use the `docker` commands manually anymore, since these are covered by the VSCode commands found in the Command Palette.
+
+Here is a [link to Lab 1](https://github.com/unlv-f1/lab1).
+
 ## Resources
 
 Here is a resource you can look at for VSCode Dev Containers:
