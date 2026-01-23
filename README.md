@@ -8,7 +8,9 @@ Doing this will provide you useful tools for your project:
 * VSCode Editor - Graphical editor
 * VSCode Extensions (linters, type checkers) - Very useful!
 
-## Guide
+## 1: Initial Setup
+
+This guide takes place after you do steps 1-3 in [Lab 1](https://github.com/unlv-f1/lab1). Note that this sets up a new Docker container separate from the one ran from `f1tenth_gym_ros`. Make sure to shut down your original container if it isn't already down.
 
 First, install [Visual Studio Code](https://code.visualstudio.com/) if you haven't already.
 
@@ -81,9 +83,13 @@ This is a configuration file for the Dev Container, you can change some of the s
 
 Once you have finished copy and pasting, go to the Command Palette (use `Ctrl+Shift+P` or **Run > Command Palette**). Then, type in and enter **Dev Containers: Rebuild and Reopen in Container**. This will build the docker container and make your VSCode window open *inside* the container.
 
-And you are set up!
+And you are all set up!
 
-## Commands
+To exit the container, go to the Command Palette again, then type in and enter **Dev Containers: Reopen Folder Locally**. This will make your VSCode window switch back to your local folder. (Since no more windows have the container open, the container will also shut down as well.)
+
+## Interlude: Commands
+
+Here are some useful VSCode commands you can use. (You don't need to run these.)
 
 Some useful commands to know *outside* the container:
 
@@ -95,9 +101,11 @@ A useful command to use *inside* the container:
 
 * **Dev Containers: Reopen Folder Locally**: Opens outside the container (locally).
 
-## Adding a New Volume Mount
+## 2: Adding a New Volume Mount
 
-To add a new volume mount, go to *docker-compose.yml* and add a new line under `services.sim.volumes` with the following syntax:
+The next step is to add a new volume mount, so that you can sync directories between your local environment and your container environment.
+
+Ensure that you are in your local folder, not your container folder. To add a new volume mount, go to your *docker-compose.yml* (in your root) and add a new line under `services.sim.volumes` with the following syntax:
 
 ```
       - <path-locally>:<path-in-container>
@@ -109,16 +117,30 @@ For example, if you wanted to mount a folder `./lab1_ws/src`, you would add the 
       - ./lab1_ws/src:/lab1_ws/src
 ```
 
-## Adding a .bashrc file
+Then, rebuild and reopen your container, and verify that `./lab1_ws/src` is mounted. You should see something like this:
 
-Copy and paste the `.bashrc` file in this repository then add the following volume mount:
+![Screenshot showing lab1_ws was volume-mounted](lab1-ws-volume-mounted.png)
+
+You'll need to add a new mount for every lab for this semester.
+
+## 3: Adding a .bashrc file
+
+Finally, we will mount a modified *.bashrc* file. This file is ran every time a new terminal is created inside your container. It is also used by the Python extension, so if you don't source the underlay in this file, it will not know where the installed Python packages are for ROS 2.
+
+First, copy and paste the *.bashrc* file (located within this Github repo) into your root folder.
+
+Then add the following volume mount by putting the following line under your `services.sim_volumes` in your *docker-compose.yml* file (in your root):
 
 ```
       - ./.bashrc:/root/.bashrc
 ```
 
-This file will be run whenever a new terminal starts. This is also used by the Python extension to find where the site packages are.
+Afterward, enter your container again. You should see it under */root*.
+
+![Screenshot of .bashrc file volume-mounted](image.png)
 
 ## Resources
+
+Here is a resource you can look at for VSCode Dev Containers:
 
 * VSCode Dev Containers:  https://code.visualstudio.com/docs/devcontainers/containers
