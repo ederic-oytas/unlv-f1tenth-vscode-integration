@@ -139,9 +139,9 @@ Then add the following volume mount by putting the following line under your `se
       - ./.bashrc:/root/.bashrc
 ```
 
-Afterward, enter your container again. You should see it under */root*.
+Afterward, rebuild and enter your container again. You should see it under */root*.
 
-![Screenshot of .bashrc file volume-mounted](image.png)
+![Screenshot of .bashrc file volume-mounted](bashrc-volume-mounted.png)
 
 ## 4: Sourcing Overlays in .bashrc (Optional)
 
